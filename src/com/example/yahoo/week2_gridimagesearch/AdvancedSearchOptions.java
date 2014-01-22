@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,6 +52,17 @@ public class AdvancedSearchOptions extends Activity {
 		addColorFilterOptions();
 		addImgTypeOptions();
 		
+		int imgSizeSpinnerPos = imgSizeOptionsAdapter.getPosition("all");
+		int colorFilterSpinnerPos = colorFilterOptionsAdapter.getPosition("none");
+		int imgTypeSpinnerPos = imgTypeOptionsAdapter.getPosition("all");
+		
+
+		//set the default according to value
+		spImgSizeOptions.setSelection(imgSizeSpinnerPos);
+		spColorFilterOptions.setSelection(colorFilterSpinnerPos);
+		spImgTypeOptions.setSelection(imgTypeSpinnerPos);
+		//etSiteFilter.setText(savedOptions.get(3));
+		
 		/*
 		readItems();
 		
@@ -71,11 +83,12 @@ public class AdvancedSearchOptions extends Activity {
 	
 	public void addImgSizeOptions() {
 		//spImgSizeOptions = (Spinner) findViewById(R.id.spImgSizeOptions);
-		imgSizeOptions = new ArrayList<String>();		
-		imgSizeOptions.add("Small");
-		imgSizeOptions.add("Medium");
-		imgSizeOptions.add("Large");
-		imgSizeOptions.add("Extra-Large");
+		imgSizeOptions = new ArrayList<String>();
+		imgSizeOptions.add("all");
+		imgSizeOptions.add("small");
+		imgSizeOptions.add("medium");
+		imgSizeOptions.add("large");
+		imgSizeOptions.add("xlarge");
 		imgSizeOptionsAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, imgSizeOptions);
 		spImgSizeOptions.setAdapter(imgSizeOptionsAdapter);
 
@@ -84,12 +97,19 @@ public class AdvancedSearchOptions extends Activity {
 	public void addColorFilterOptions() {
 		//spColorFilterOptions = (Spinner) findViewById(R.id.spColorFilterOptions);
 		colorFilterOptions = new ArrayList<String>();		
-		colorFilterOptions.add("Black");
-		colorFilterOptions.add("Blue");
-		colorFilterOptions.add("Brown");
-		colorFilterOptions.add("Grey");
-		colorFilterOptions.add("Green");
-		colorFilterOptions.add("Red");
+		colorFilterOptions.add("none");
+		colorFilterOptions.add("black");
+		colorFilterOptions.add("blue");
+		colorFilterOptions.add("brown");
+		colorFilterOptions.add("gray");
+		colorFilterOptions.add("green");
+		colorFilterOptions.add("red");
+		colorFilterOptions.add("orange");
+		colorFilterOptions.add("pink");
+		colorFilterOptions.add("purple");
+		colorFilterOptions.add("teal");
+		colorFilterOptions.add("white");
+		colorFilterOptions.add("yellow");
 		colorFilterOptionsAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, colorFilterOptions);
 		spColorFilterOptions.setAdapter(colorFilterOptionsAdapter);
 
@@ -98,10 +118,11 @@ public class AdvancedSearchOptions extends Activity {
 	public void addImgTypeOptions() {
 		//spImgTypeOptions = (Spinner) findViewById(R.id.spImgTypeOptions);
 		imgTypeOptions = new ArrayList<String>();		
-		imgTypeOptions.add("Faces");
-		imgTypeOptions.add("Photo");
-		imgTypeOptions.add("Clip Art");
-		imgTypeOptions.add("Line Art");
+		imgTypeOptions.add("all");
+		imgTypeOptions.add("face");
+		imgTypeOptions.add("photo");
+		imgTypeOptions.add("clipart");
+		imgTypeOptions.add("lineart");
 		imgTypeOptionsAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, imgTypeOptions);
 		spImgTypeOptions.setAdapter(imgTypeOptionsAdapter);
 
@@ -115,13 +136,22 @@ public class AdvancedSearchOptions extends Activity {
 		                "\nImage Type : "+ String.valueOf(spImgTypeOptions.getSelectedItem())+
 		                "\nSite Filter : "+ etSiteFilter.getText().toString(),
 					Toast.LENGTH_SHORT).show();
-		
+		Intent data = new Intent();
+		data.putExtra("imageSize", String.valueOf(spImgSizeOptions.getSelectedItem()));
+		data.putExtra("colorFilter", String.valueOf(spColorFilterOptions.getSelectedItem()));
+		data.putExtra("imageType", String.valueOf(spImgTypeOptions.getSelectedItem()));
+		data.putExtra("siteFilter", etSiteFilter.getText().toString());
+		setResult(RESULT_OK, data);
+		finish();
+		/*
 		savedOptions.add(String.valueOf(spImgSizeOptions.getSelectedItem()));
 		savedOptions.add(String.valueOf(spColorFilterOptions.getSelectedItem()));
 		savedOptions.add(String.valueOf(spImgTypeOptions.getSelectedItem()));
 		savedOptions.add(etSiteFilter.getText().toString());
 		writeItems();
 		savedOptions.clear();
+		*/
+		
 	}
 	
 	private void readItems() {

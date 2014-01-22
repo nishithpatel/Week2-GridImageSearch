@@ -30,7 +30,13 @@ public class SearchImageActivity extends Activity {
 	private Button btnSearch;
 	private GridView gvResults;
 	private ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
-	ImageResultArrayAdapter imageAdapter;
+	private ImageResultArrayAdapter imageAdapter;
+	
+	private final int REQUEST_CODE = 1;
+	private String imageSize;
+	private String colorFilter;
+	private String imageType;
+	private String siteFilter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,9 @@ public class SearchImageActivity extends Activity {
 		
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + 
-		"start=" + 0 + "&v=1.0&q=" + Uri.encode(query), 
+		"start=" + 0 + "&v=1.0" + "&imgsz=" + Uri.encode(imageSize) + "&imgcolor=" + Uri.encode(colorFilter) + 
+		"&imgtype=" + Uri.encode(imageType) + "&as_sitesearch=" + Uri.encode(siteFilter) + 
+		"&q=" + Uri.encode(query), 
 			new JsonHttpResponseHandler(){
 				public void onSuccess(JSONObject response)
 				{
@@ -85,8 +93,28 @@ public class SearchImageActivity extends Activity {
 	     // handle click from menu item
 		//Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this, AdvancedSearchOptions.class);
-		startActivity(i);
+		i.putExtra("mode", 2);
+		startActivityForResult(i, REQUEST_CODE);
 	  }
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) 
+		{
+		     imageSize = data.getExtras().getString("imageSize");
+		     Toast.makeText(this, imageSize, Toast.LENGTH_SHORT).show();
+		     
+		     colorFilter = data.getExtras().getString("colorFilter");
+		     Toast.makeText(this, colorFilter, Toast.LENGTH_SHORT).show();
+		     
+		     imageType = data.getExtras().getString("imageType");
+		     Toast.makeText(this, imageType, Toast.LENGTH_SHORT).show();
+		     
+		     siteFilter = data.getExtras().getString("siteFilter");
+		     Toast.makeText(this, siteFilter, Toast.LENGTH_SHORT).show();
+		  }
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
