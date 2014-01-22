@@ -5,13 +5,5 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-    
-    <item
-        android:id="@+id/miOptions"
-        android:icon="@drawable/ic_adv_search_options"
-        android:showAsAction="ifRoom"
-        android:onClick="onOptions"
-        android:title="Options">
-    </item>
 
 </menu>
