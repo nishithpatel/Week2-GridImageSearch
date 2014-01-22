@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Week2-GridImageSearch</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="btnLabel">Search</string>
+    <string name="SearchCriteriaHint">Enter image search</string>
+    <string name="title_activity_image_display">ImageDisplayActivity</string>
+
+</resources>
