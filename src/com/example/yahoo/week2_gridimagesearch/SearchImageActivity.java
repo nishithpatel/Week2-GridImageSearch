@@ -33,10 +33,10 @@ public class SearchImageActivity extends Activity {
 	private ImageResultArrayAdapter imageAdapter;
 	
 	private final int REQUEST_CODE = 1;
-	private String imageSize;
-	private String colorFilter;
-	private String imageType;
-	private String siteFilter;
+	private String imageSize = "";
+	private String colorFilter = "";
+	private String imageType = "";
+	private String siteFilter = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

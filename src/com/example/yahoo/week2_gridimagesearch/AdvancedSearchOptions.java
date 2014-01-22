@@ -35,6 +35,10 @@ public class AdvancedSearchOptions extends Activity {
 	
 	private ArrayList<String> savedOptions;
 	private Button btnSave;
+	
+	private int imgSizeSpinnerPos;
+	private int colorFilterSpinnerPos;
+	private int imgTypeSpinnerPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +56,20 @@ public class AdvancedSearchOptions extends Activity {
 		addColorFilterOptions();
 		addImgTypeOptions();
 		
-		int imgSizeSpinnerPos = imgSizeOptionsAdapter.getPosition("all");
-		int colorFilterSpinnerPos = colorFilterOptionsAdapter.getPosition("none");
-		int imgTypeSpinnerPos = imgTypeOptionsAdapter.getPosition("all");
-		
-
-		//set the default according to value
-		spImgSizeOptions.setSelection(imgSizeSpinnerPos);
-		spColorFilterOptions.setSelection(colorFilterSpinnerPos);
-		spImgTypeOptions.setSelection(imgTypeSpinnerPos);
-		//etSiteFilter.setText(savedOptions.get(3));
-		
-		/*
 		readItems();
 		
-		int imgSizeSpinnerPos = imgSizeOptionsAdapter.getPosition(savedOptions.get(0));
-		int colorFilterSpinnerPos = colorFilterOptionsAdapter.getPosition(savedOptions.get(1));
-		int imgTypeSpinnerPos = imgTypeOptionsAdapter.getPosition(savedOptions.get(2));
+		if(savedOptions.size() == 0)
+		{
+			imgSizeSpinnerPos = imgSizeOptionsAdapter.getPosition("all");
+			colorFilterSpinnerPos = colorFilterOptionsAdapter.getPosition("none");
+			imgTypeSpinnerPos = imgTypeOptionsAdapter.getPosition("all");
+		}
+		else 
+		{
+			imgSizeSpinnerPos = imgSizeOptionsAdapter.getPosition(savedOptions.get(0));
+			colorFilterSpinnerPos = colorFilterOptionsAdapter.getPosition(savedOptions.get(1));
+			imgTypeSpinnerPos = imgTypeOptionsAdapter.getPosition(savedOptions.get(2));
+		}
 		
 
 		//set the default according to value
@@ -78,7 +79,7 @@ public class AdvancedSearchOptions extends Activity {
 		etSiteFilter.setText(savedOptions.get(3));
 		
 		savedOptions.clear();
-		*/
+		
 	}
 	
 	public void addImgSizeOptions() {
@@ -143,14 +144,14 @@ public class AdvancedSearchOptions extends Activity {
 		data.putExtra("siteFilter", etSiteFilter.getText().toString());
 		setResult(RESULT_OK, data);
 		finish();
-		/*
+		
 		savedOptions.add(String.valueOf(spImgSizeOptions.getSelectedItem()));
 		savedOptions.add(String.valueOf(spColorFilterOptions.getSelectedItem()));
 		savedOptions.add(String.valueOf(spImgTypeOptions.getSelectedItem()));
 		savedOptions.add(etSiteFilter.getText().toString());
 		writeItems();
 		savedOptions.clear();
-		*/
+		
 		
 	}
 	
