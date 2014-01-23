@@ -37,6 +37,7 @@ public class SearchImageActivity extends Activity {
 	private String colorFilter = "";
 	private String imageType = "";
 	private String siteFilter = "";
+	int imageResultOffset = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +60,35 @@ public class SearchImageActivity extends Activity {
 			
 		});
 		
+		gvResults.setOnScrollListener(new EndlessScrollListener() {
+	        @Override
+	        public void onLoadMore(int page, int totalItemsCount) {
+	                // Triggered only when new data needs to be appended to the list
+	                // Add whatever code is needed to append new items to your AdapterView
+	            //customLoadMoreDataFromApi(page); 
+	                customLoadMoreDataFromApi(totalItemsCount); 
+	        }
+	        });
+		
 	}
 	
-	public void onImageSearch(View v) {
+	public void customLoadMoreDataFromApi(int offset) {
+	      // This method probably sends out a network request and appends new data items to your adapter. 
+	      // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
+	      // Deserialize API response and then construct new objects to append to the adapter
+		imageResultOffset = offset;
+		requestResults(gvResults);
+	    }
+	
+	public void requestResults(View v)
+	{
 		String query = etSearchCriteria.getText().toString();
-		Toast.makeText(this, "Search Criteria: " + query, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Search Criteria: " + query, Toast.LENGTH_SHORT).show();
 		
 		AsyncHttpClient client = new AsyncHttpClient();
+		
 		client.get("https://ajax.googleapis.com/ajax/services/search/images?rsz=8&" + 
-		"start=" + 0 + "&v=1.0" + "&imgsz=" + Uri.encode(imageSize) + "&imgcolor=" + Uri.encode(colorFilter) + 
+		"start=" + imageResultOffset + "&v=1.0" + "&imgsz=" + Uri.encode(imageSize) + "&imgcolor=" + Uri.encode(colorFilter) + 
 		"&imgtype=" + Uri.encode(imageType) + "&as_sitesearch=" + Uri.encode(siteFilter) + 
 		"&q=" + Uri.encode(query), 
 			new JsonHttpResponseHandler(){
@@ -77,7 +98,7 @@ public class SearchImageActivity extends Activity {
 					try
 					{
 						imageJsonResults = response.getJSONObject("responseData").getJSONArray("results");
-						imageResults.clear();
+						//imageResults.clear();
 						imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
 						Log.d("DEBUG", imageResults.toString());
 					}
@@ -87,6 +108,11 @@ public class SearchImageActivity extends Activity {
 					}
 				}
 			});
+	}
+	
+	public void onImageSearch(View v) {
+		imageResults.clear();
+		requestResults(v);
 	}
 	
 	public void onOptions(MenuItem mi) {
@@ -103,16 +129,16 @@ public class SearchImageActivity extends Activity {
 		if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) 
 		{
 		     imageSize = data.getExtras().getString("imageSize");
-		     Toast.makeText(this, imageSize, Toast.LENGTH_SHORT).show();
+		     //Toast.makeText(this, imageSize, Toast.LENGTH_SHORT).show();
 		     
 		     colorFilter = data.getExtras().getString("colorFilter");
-		     Toast.makeText(this, colorFilter, Toast.LENGTH_SHORT).show();
+		     //Toast.makeText(this, colorFilter, Toast.LENGTH_SHORT).show();
 		     
 		     imageType = data.getExtras().getString("imageType");
-		     Toast.makeText(this, imageType, Toast.LENGTH_SHORT).show();
+		     //Toast.makeText(this, imageType, Toast.LENGTH_SHORT).show();
 		     
 		     siteFilter = data.getExtras().getString("siteFilter");
-		     Toast.makeText(this, siteFilter, Toast.LENGTH_SHORT).show();
+		     //Toast.makeText(this, siteFilter, Toast.LENGTH_SHORT).show();
 		  }
 	}
 

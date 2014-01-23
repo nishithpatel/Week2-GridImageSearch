@@ -131,12 +131,17 @@ public class AdvancedSearchOptions extends Activity {
 	
 	public void onSave(View v) {
 		
-		Toast.makeText(AdvancedSearchOptions.this, "OnClickListener : " + 
-		                "\nImage Size : "+ String.valueOf(spImgSizeOptions.getSelectedItem()) + 
-		                "\nColor Filter : "+ String.valueOf(spColorFilterOptions.getSelectedItem())+
-		                "\nImage Type : "+ String.valueOf(spImgTypeOptions.getSelectedItem())+
-		                "\nSite Filter : "+ etSiteFilter.getText().toString(),
-					Toast.LENGTH_SHORT).show();
+		String imageSize = String.valueOf(spImgSizeOptions.getSelectedItem());
+		String colorFilter = String.valueOf(spColorFilterOptions.getSelectedItem());
+		String imageType = String.valueOf(spImgTypeOptions.getSelectedItem());
+		
+		
+		//Toast.makeText(AdvancedSearchOptions.this, "OnClickListener : " + 
+		//              "\nImage Size : "+ String.valueOf(spImgSizeOptions.getSelectedItem()) + 
+		//                "\nColor Filter : "+ String.valueOf(spColorFilterOptions.getSelectedItem())+
+		//                "\nImage Type : "+ String.valueOf(spImgTypeOptions.getSelectedItem())+
+		//                "\nSite Filter : "+ etSiteFilter.getText().toString(),
+		//			Toast.LENGTH_SHORT).show();
 		Intent data = new Intent();
 		data.putExtra("imageSize", String.valueOf(spImgSizeOptions.getSelectedItem()));
 		data.putExtra("colorFilter", String.valueOf(spColorFilterOptions.getSelectedItem()));
